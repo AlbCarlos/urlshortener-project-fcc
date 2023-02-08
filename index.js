@@ -45,8 +45,8 @@ app.post('/api/shorturl/:requestedUrl?', (req, res) => {
   let url = urlParser.parse(req.body.url);
   try {
 
-    // Check if the URL is valid
-    if(!isValidURL(url.href)) throw 'invalid url';
+    // Check if the URL is not valid or does not uses http protocol | DeMorgan Rule
+    if(!(isValidURL(url.href) && url.href.includes('http') )) throw 'invalid url';
 
     // If DNS lookup fails it means the hostname is not valid
     dns.lookup(url.host, (err) => {
